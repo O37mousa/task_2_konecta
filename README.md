@@ -51,9 +51,16 @@ Log in from the control machine to each node to ensure SSH works:
 🔗 Connect to Docker Machine
 `ssh -i ansible-key.pem ubuntu@13.53.35.182`
 
+![image](https://github.com/user-attachments/assets/e4aa5543-b295-4917-b879-c5dfe09091ed)
+
+
+
 🔗 Connect to Frontend Machine
 `ssh -i ansible-key.pem ubuntu@13.62.52.225`
 
+
+
+![image](https://github.com/user-attachments/assets/de57b50f-783c-46bd-9fbb-da2aeb021d67)
 
 
 
@@ -78,9 +85,23 @@ Create Ansible playbooks for configuring:
 - Docker and Redis on the backend
 
 
+## ✅ Step 6: On Ansible (control) machine, Run Playbooks
+Run docker playbook using: 
+`ansible-playbook -i inventory.ini playbooks/docker.yml`
 
-## ✅ Step 5: Validate Running Services
+![image](https://github.com/user-attachments/assets/2476bd47-42a5-41d7-b803-9873594c1984)
+
+Run frontend playbook using: 
+`ansible-playbook -i inventory.ini playbooks/frontend.yml`
+
+![image](https://github.com/user-attachments/assets/ac080591-c3f0-4f0d-b151-f0d187fb0fb7)
+
+
+
+
+## ✅ Step 6: Validate Running Services
 Once playbooks are run, verify that:
 
 ✅ Docker container is running on the Docker machine
 
+![image](https://github.com/user-attachments/assets/df4ca2c2-1e2d-4873-b5ee-0e422d4ebd87)
