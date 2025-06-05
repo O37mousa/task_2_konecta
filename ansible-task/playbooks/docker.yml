@@ -1,0 +1,35 @@
+- name: Docker Setup and Run Redis
+  hosts: docker
+  become: yes
+  tasks:
+   - name: Install Docker
+     apt:
+       name: docker.io
+       state: present
+       update_cache: yes
+
+   - name: Start Docker
+     systemd:
+       name: docker
+       state: started
+       enabled: true
+
+   - name: Pull Redis image
+     docker_image:
+       name: redis
+       source: pull
+       state: present
+
+   - name: Run Redis container
+     docker_container:
+       name: redis-container
+       image: redis
+       state: started
+
+   - name: Run "docker ps" command
+     command: docker ps
+     register: output
+
+   - name: Show Docker containers in terminal
+     debug:
+       var: output.stdout

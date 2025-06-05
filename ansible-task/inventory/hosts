@@ -1,0 +1,5 @@
+[frontend]
+frontend ansible_host=<public_frontend_ip>
+
+[docker]
+docker ansible_host=<public_docker_ip>

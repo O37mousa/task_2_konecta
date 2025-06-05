@@ -1,0 +1,42 @@
+- name: frontend configuration
+  hosts: frontend
+  become: yes
+  tasks:
+    - name: Installing NGINX only if ubuntu
+      apt:
+        name: nginx
+        state: present
+        update_cache: yes
+      when: ansible_facts['distribution'] == "Ubuntu"
+
+    - name: Installing tools (vim, curl, git)
+      apt:
+        name: "{{ item }}"
+        state: present
+        update_cache: yes
+      loop:
+        - vim
+        - curl
+        - git
+
+    - name: Create simple index.html for NGINX
+      copy:
+        dest: /var/www/html/index.html
+        content:
+          <html>
+            <head><title>Welcome</title></head>
+            <body><h1>Hello from NGINX!</h1></body>
+          </html>
+      notify: Restart NGINX
+
+    - name: Check if RAM is at least 1GB
+      debug:
+        msg: "RAM is sufficient: {{ ansible_memtotal_mb }} MB"
+      when: ansible_memtotal_mb >= 1024
+      failed_when: ansible_memtotal_mb < 1024
+
+  handlers:
+    - name: Restart NGINX
+      service:
+        name: nginx
+        state: restarted
